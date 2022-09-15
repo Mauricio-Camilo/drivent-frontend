@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import DateFnsUtils from '@date-io/date-fns';
 import Typography from '@material-ui/core/Typography';
@@ -22,6 +22,7 @@ import { InputWrapper } from './InputWrapper';
 import { ErrorMsg } from './ErrorMsg';
 import { ufList } from './ufList';
 import FormValidations from './FormValidations';
+import { UserFormContext } from '../../contexts/UserFormContext';
 
 dayjs.extend(CustomParseFormat);
 
@@ -30,6 +31,7 @@ export default function PersonalInformationForm() {
   const { getCep } = useCep();
   const { enrollment } = useEnrollment();
   const { saveEnrollmentLoading, saveEnrollment } = useSaveEnrollment();
+  const { setUserForm, setUsePayment } = useContext(UserFormContext);
 
   const {
     handleSubmit,
@@ -60,6 +62,7 @@ export default function PersonalInformationForm() {
 
       try {
         await saveEnrollment(newData);
+        setUsePayment(true);
         toast('Informações salvas com sucesso!');
       } catch (err) {
         toast('Não foi possível salvar suas informações!');
@@ -96,6 +99,7 @@ export default function PersonalInformationForm() {
         neighborhood: enrollment.address.neighborhood,
         addressDetail: enrollment.address.addressDetail
       });
+      setUserForm(enrollment);
     }
   }, [enrollment]);
 

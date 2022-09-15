@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: drivent-front
+    container_name: drivent-front-prod
     logging:
       driver: "json-file"
       options:

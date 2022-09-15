@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
 import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import qs from 'query-string';
+import axios from 'axios';
 
 import AuthLayout from '../../layouts/Auth';
 
@@ -36,7 +39,37 @@ export default function SignIn() {
     } catch (err) {
       toast('Não foi possível fazer o login!');
     }
-  } 
+  }
+
+  function redirectToGithub() {
+    const GITHUB_AUTH_URL = 'https://github.com/login/oauth/authorize';
+    const params = {
+      response_type: 'code',
+      scope: 'user public_repo',
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      redirect_uri: process.env.REACT_APP_REDIRECT_URL,
+      state: 'login'
+    };
+    const queryStrings = qs.stringify(params);
+    const authorizationUrl = `${GITHUB_AUTH_URL}?${queryStrings}`;
+    window.location.href = authorizationUrl;
+  }
+  
+  window.onload = async() => {
+    document.querySelector('.login').addEventListener('click', redirectToGithub);
+    
+    const { code } = qs.parseUrl(window.location.href).query;
+    console.log(code);
+    if(code) {
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_BACK_END_URL}/auth/login`, { code });
+        const user = response.data;
+        console.log(user);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
   return (
     <AuthLayout background={eventInfo.backgroundImageUrl}>
@@ -52,6 +85,7 @@ export default function SignIn() {
           <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>Entrar</Button>
         </form>
       </Row>
+      <button className='login'>Entrar com o Github</button>
       <Row>
         <Link to="/enroll">Não possui login? Inscreva-se</Link>
       </Row>
