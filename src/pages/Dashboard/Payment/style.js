@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const PaymentContainer = styled.div`
+const TitleContainer = styled.div`
   .payment-title-and-subtitle {
     font-family: 'Roboto';
     font-style: normal;
@@ -107,7 +107,7 @@ const NoDataContainer = styled.div`
 `;
 
 export {
-  PaymentContainer,
+  TitleContainer,
   Button,
   NoDataContainer,
 };

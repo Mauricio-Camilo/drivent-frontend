@@ -23,6 +23,7 @@ import { ErrorMsg } from './ErrorMsg';
 import { ufList } from './ufList';
 import FormValidations from './FormValidations';
 import { UserFormContext } from '../../contexts/UserFormContext';
+import { UserTicketContext } from '../../contexts/UserTicketContext';
 
 dayjs.extend(CustomParseFormat);
 
@@ -32,6 +33,9 @@ export default function PersonalInformationForm() {
   const { enrollment } = useEnrollment();
   const { saveEnrollmentLoading, saveEnrollment } = useSaveEnrollment();
   const { setUserForm, setUsePayment } = useContext(UserFormContext);
+  const { finishSubscription, setFinishSubscription } = useContext(UserTicketContext);
+
+  console.log(finishSubscription);
 
   const {
     handleSubmit,
@@ -62,6 +66,7 @@ export default function PersonalInformationForm() {
 
       try {
         await saveEnrollment(newData);
+        setFinishSubscription(true);
         setUsePayment(true);
         toast('Informações salvas com sucesso!');
       } catch (err) {
