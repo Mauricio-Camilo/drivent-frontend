@@ -71,6 +71,39 @@ const Button = styled.button`
   }
 `;
 
+const Ticket = styled.div`
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  width: 290px;
+  height: 108px;
+  border: 1px solid #CECECE;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-right: 24px;
+  background-color: #FFEED2;
+
+    h4 {
+      font-family: 'Roboto';
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      color: #454545;      
+    }
+
+    p {
+      font-family: 'Roboto';
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #898989;      
+    }
+`;
+
 const NoDataContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -109,5 +142,6 @@ const NoDataContainer = styled.div`
 export {
   TitleContainer,
   Button,
+  Ticket,
   NoDataContainer,
 };

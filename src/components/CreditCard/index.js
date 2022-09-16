@@ -11,7 +11,7 @@ import { UserPaymentContext } from '../../contexts/ConfirmUserPayment';
 
 export default function Card(props) {
   const { setReservationData } = useContext(UserPaymentContext);
-  const { setFinishTicket, userTicket } = useContext(UserTicketContext);
+  const { setFinishTicket, userTicket, finishPayment, setFinishPayment } = useContext(UserTicketContext);
   const { userHotel } = useContext(UserHotelContext);
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
@@ -22,22 +22,22 @@ export default function Card(props) {
   async function handleCard(e) {
     e.preventDefault();
     try {
-      const cardId = await createCard({
-        number,
-        name,
-        expiry,
-        cvc,
-        userId: props.id
-      });
-      const reservData = {
-        ticket: userTicket.type,
-        accommodation: userHotel.type,
-        userId: props.id,
-        cardId,
-      };
-      await saveReservation(reservData);
-      setReservationData(reservData);
-      setFinishTicket(true);
+      // const cardId = await createCard({
+      //   number,
+      //   name,
+      //   expiry,
+      //   cvc,
+      //   userId: props.id
+      // });
+      // const reservData = {
+      //   ticket: userTicket.type,
+      //   accommodation: userHotel.type,
+      //   userId: props.id,
+      //   cardId,
+      // };
+      // await saveReservation(reservData);
+      // setReservationData(reservData);
+      setFinishPayment(true);
     }
     catch {
       alert('Deu erro ao enviar os dados');
