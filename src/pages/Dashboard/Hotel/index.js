@@ -1,8 +1,8 @@
 import { UserMessageForOnlineTicket } from './../../../components/UserMessageForOnlineTicket';
 import { UserMessageForPayment } from './../../../components/UserMessageForPayment';
 import { useContext } from 'react';
-import UserContext from '../../../contexts/UserContext';
 import { UserTicketContext } from '../../../contexts/UserTicketContext';
+import { UserHotelContext } from '../../../contexts/UserHotelContext';
 
 import { Hotels } from '../../../components/HotelComponents/Hotels';
 
@@ -11,6 +11,8 @@ import { HotelsContainer } from './style';
 
 export default function Hotel() {
   const { finishPayment, selectedTicket } = useContext(UserTicketContext);
+  const { lastPage } = useContext(UserHotelContext);
+
   const isOnline = [...selectedTicket.keys()][0] === 'Online';
 
   function handleOnlineTicketMessage() {
@@ -34,6 +36,17 @@ export default function Hotel() {
       </TitleContainer>
     );
   }
+
+  function handleConfirmationPage() {
+    return (
+      <TitleContainer>
+        <div className="payment-title-and-subtitle">
+          <h1>Escolha de hotel e quarto</h1>
+          <h3>Você já escolheu seu quarto</h3>
+        </div>
+      </TitleContainer>
+    );
+  }
   return (
     <>
       {finishPayment ? 
@@ -44,15 +57,16 @@ export default function Hotel() {
             </>
             :
             <>
-              <TitleContainer>
-                <div className="payment-title-and-subtitle">
-                  <h1>Escolha de hotel e quarto</h1>
-                  <h3>Primeiro, escolha seu hotel</h3>
-                </div>
-                <HotelsContainer>
+              {!lastPage?
+                <TitleContainer>
+                  <div className="payment-title-and-subtitle">
+                    <h1>Escolha de hotel e quarto</h1>
+                    <h3>Primeiro, escolha seu hotel</h3>
+                  </div>
                   <Hotels />
-                </HotelsContainer>
-              </TitleContainer>
+                </TitleContainer>
+                :
+                <>{handleConfirmationPage()}</>}
             </>}
         </>
         :

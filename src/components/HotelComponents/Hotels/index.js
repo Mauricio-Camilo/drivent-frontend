@@ -4,11 +4,14 @@ import { getSelectedHotelRooms, getAllHotels } from '../../../services/hotelsApi
 import { UserHotelContext } from '../../../contexts/UserHotelContext';
 import { toast } from 'react-toastify';
 
+import Rooms from '../Rooms';
+
 import { HotelsContainer, ImageContainer, Image, RoomsContainer, Room, IconsContainer, Icon, IconStatus, IconFill, Button } from './style';
 
 export function Hotels() {
   const [loadPage, setLoadPage] = useState(false);
   const { hotels, setHotels, selectedHotel, setSelectedHotel } = useContext(UserHotelContext);
+  const showRooms = [...selectedHotel.keys()][0] !== undefined;
 
   useEffect(() => {
     async function getHotels() {
@@ -66,9 +69,21 @@ export function Hotels() {
     }
     else return 'Carregando';
   }
+
   return (
     <>
-      {handleHospedations()}
+      <HotelsContainer>
+        {handleHospedations()}
+      </HotelsContainer>
+      {showRooms?
+        <>
+          <div className="payment-title-and-subtitle">
+            <h3>Ótima pedida, agora escolha o seu quarto</h3>
+          </div>
+          <Rooms />
+        </>
+        :
+        <></>}
     </>
   );
 }
