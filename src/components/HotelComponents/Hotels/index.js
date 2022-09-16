@@ -10,7 +10,8 @@ import { HotelsContainer, ImageContainer, Image, RoomsContainer, Room, IconsCont
 
 export function Hotels() {
   const [loadPage, setLoadPage] = useState(false);
-  const { hotels, setHotels, selectedHotel, setSelectedHotel } = useContext(UserHotelContext);
+  const { hotels, setHotels, selectedHotel, setSelectedHotel,
+    selectedRoom, setSelectedRoom, selectedUser, setSelectedUser } = useContext(UserHotelContext);
   const showRooms = [...selectedHotel.keys()][0] !== undefined;
 
   useEffect(() => {
@@ -38,13 +39,12 @@ export function Hotels() {
     }
     else {
       selectedHotel.clear();
-      //   selectedRoom.clear();
-      //   selectedUser.clear();
+      selectedRoom.clear();
+      selectedUser.clear();
       setSelectedHotel(new Map(selectedHotel.set(hotel)));
-    //   selectedRoom.clear();
-    //   selectedUser.clear();
+      selectedRoom.clear();
+      selectedUser.clear();
     }
-    // await getAllRooms();
   }
 
   function handleHospedations() {

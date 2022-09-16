@@ -9,10 +9,11 @@ import { Hotels } from '../../../components/HotelComponents/Hotels';
 import { TitleContainer } from './../Payment/style';
 
 export default function Hotel() {
-  const { finishPayment, selectedTicket } = useContext(UserTicketContext);
+  const { finishPayment } = useContext(UserTicketContext);
   const { lastPage } = useContext(UserHotelContext);
 
-  const isOnline = [...selectedTicket.keys()][0] === 'Online';
+  const isOnline = (localStorage.getItem('ticket') === 'Online');
+  const isNoHotel = (localStorage.getItem('accommodation') === 'Sem Hotel');
 
   function handleOnlineTicketMessage() {
     return (
@@ -50,7 +51,7 @@ export default function Hotel() {
     <>
       {finishPayment ? 
         <>
-          {isOnline ?
+          {(isOnline || isNoHotel) ?
             <>
               {handleOnlineTicketMessage()}
             </>

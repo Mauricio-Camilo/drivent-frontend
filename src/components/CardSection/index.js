@@ -5,10 +5,7 @@ import Card from './../../components/CreditCard';
 import PaymentConfirmation from './../../components/PaymentConfirmation';
 
 export default function CardPage() {
-  const { finishPayment, setFinishPayment,
-    userTicket, setUserTicket } = useContext(UserTicketContext);
-
-  console.log('pagina de cartao:', userTicket);
+  const { finishPayment, userTicket } = useContext(UserTicketContext);
 
   function handleTicket() {
     const { ticket, accommodation, price } = userTicket;

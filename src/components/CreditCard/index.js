@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useContext } from 'react';
 import { UserTicketContext } from '../../contexts/UserTicketContext';
 import UserContext from '../../contexts/UserContext';
+import { toast } from 'react-toastify';
 import { createCard } from '../../services/cardApi';
 import { saveReservation } from '../../services/reservationApi';
 
@@ -20,24 +21,24 @@ export default function Card() {
   async function handleCard(e) {
     e.preventDefault();
     try {
-      const cardId = await createCard({
-        number,
-        name,
-        expiry,
-        cvc,
-        userId: userData.user.id
-      });
-      const saveData = {
-        ticketId: userTicket.id,
-        cardId,
-      };
-      await saveReservation(saveData);
+      // const cardId = await createCard({
+      //   number,
+      //   name,
+      //   expiry,
+      //   cvc,
+      //   userId: userData.user.id
+      // });
+      // const saveData = {
+      //   ticketId: userTicket.id,
+      //   cardId,
+      // };
+      // await saveReservation(saveData);
 
       localStorage.setItem('finishPayment', true);
       setFinishPayment(true);
     }
     catch {
-      alert('Deu erro ao enviar os dados');
+      toast('Deu erro ao salvar os dados do cartão');
     }
   }
   

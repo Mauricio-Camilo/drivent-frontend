@@ -32,6 +32,7 @@ export default function Rooms() {
       setSelectedUser(new Map(selectedUser.set(id)));
       setSelectedRoom(new Map(selectedRoom.set(number)));
     }
+    console.log([...selectedRoom.keys()][0]);
   }
 
   async function getAllRooms() {

@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { UserTicketContext } from '../../contexts/UserTicketContext';
 import UserContext from '../../contexts/UserContext';
-import { saveReservation } from '../../services/reservationApi';
+import { saveTicket } from '../../services/reservationApi';
+import { toast } from 'react-toastify';
 
 export default function ConfirmationTicket() {
   const { selectedTicket, selectedAccommodation, 
-    finishTicket, setFinishTicket,
-    userTicket, setUserTicket } = useContext(UserTicketContext);
+    setFinishTicket, setUserTicket } = useContext(UserTicketContext);
   const { userData } = useContext(UserContext);
 
   const ticketStatus = [...selectedTicket.keys()][0];
@@ -36,22 +36,23 @@ export default function ConfirmationTicket() {
 
   async function submit() {
     try {
-      const saveTicket = {
+      const ticket = {
         userId: userData.user.id,
         ticket: ticketStatus,
-        accommodation: accomodationStatus,
+        accommodation: accomodationStatus === undefined? '' : accomodationStatus,
         price: calculateFinalPrice(accomodationStatus, ticketStatus),
       };
-      const ticketData = await saveReservation(saveTicket);
+      const ticketData = await saveTicket(ticket);
       if (ticketData.length !== 0) {
         setUserTicket(ticketData);
-        // localStorage.setItem('ticketData', ticketData);
       }
       setFinishTicket(true);
       localStorage.setItem('finishTicket', true);
+      localStorage.setItem('ticket', ticketStatus);
+      localStorage.setItem('accommodation', accomodationStatus);
     }
     catch {
-      alert('Deu erro ao enviar os dados');
+      toast('Deu erro ao salvar o ticket');
     }
   }
 
