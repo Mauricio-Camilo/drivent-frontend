@@ -35,8 +35,6 @@ export default function PersonalInformationForm() {
   const { setUserForm, setUsePayment } = useContext(UserFormContext);
   const { finishSubscription, setFinishSubscription } = useContext(UserTicketContext);
 
-  console.log(finishSubscription);
-
   const {
     handleSubmit,
     handleChange,
@@ -66,6 +64,8 @@ export default function PersonalInformationForm() {
 
       try {
         await saveEnrollment(newData);
+        // README: SALVAR DIRETO NO LOCAL STORAGE
+        localStorage.setItem('finishSubscription', true);
         setFinishSubscription(true);
         setUsePayment(true);
         toast('Informações salvas com sucesso!');

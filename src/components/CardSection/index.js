@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { UserTicketContext } from '../../contexts/UserTicketContext';
 import { TitleContainer, Ticket } from '../../pages/Dashboard/Payment/style';
 import Card from './../../components/CreditCard';
+import PaymentConfirmation from './../../components/PaymentConfirmation';
 
 export default function CardPage() {
   const { finishPayment, setFinishPayment } = useContext(UserTicketContext);
@@ -39,9 +40,7 @@ export default function CardPage() {
         </div>
       </TitleContainer> 
       {finishPayment?
-        <>
-          <h1>Pagamento Finalizado</h1>
-        </>
+        <PaymentConfirmation />
         :
         <Card />}
     </>

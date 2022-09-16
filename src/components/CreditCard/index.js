@@ -37,6 +37,9 @@ export default function Card(props) {
       // };
       // await saveReservation(reservData);
       // setReservationData(reservData);
+
+      // README: SALVAR DIRETO NO LOCAL STORAGE
+      localStorage.setItem('finishPayment', true);
       setFinishPayment(true);
     }
     catch {
@@ -97,6 +100,7 @@ const Button = styled.button`
     border-radius: 4px;
     margin-top: 37px;
     margin-left: -295px;
+    cursor: pointer;
 `;
 
 const InputsContainer = styled.div`

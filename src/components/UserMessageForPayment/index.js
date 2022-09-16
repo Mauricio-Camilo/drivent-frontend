@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
-const UserMessageSubscription = () => {
+const UserMessageForPayment = () => {
   return (
     <Background>
       <Message>
-        Você precisa completar sua inscrição antes <br></br> de prosseguir pra escolha de ingresso
+        Você precisa ter confirmado pagamento antes 
+        <br></br>de fazer a escolha de atividades.
       </Message>
     </Background>
   );
 };
 
-export { UserMessageSubscription };
+export { UserMessageForPayment };
 
 const Background = styled.div`
     width: 100%;
@@ -18,7 +19,7 @@ const Background = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 150px;
+    padding-bottom: 250px;
 `;
 
 const Message = styled.p`

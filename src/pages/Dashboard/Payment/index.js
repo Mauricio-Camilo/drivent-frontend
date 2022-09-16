@@ -1,4 +1,4 @@
-import { UserMessagePayment } from './../../../components/UserMessageSubscription';
+import { UserMessageSubscription } from './../../../components/UserMessageSubscription';
 import { useContext, useState } from 'react';
 import UserContext from '../../../contexts/UserContext';
 import { UserTicketContext } from '../../../contexts/UserTicketContext';
@@ -11,7 +11,7 @@ import CardPage from '../../../components/CardSection';
 import { TitleContainer } from './style';
 
 export default function Payment() {
-  const { finishTicket, setFinishTicket } = useContext(UserTicketContext);
+  const { finishTicket, finishSubscription } = useContext(UserTicketContext);
 
   return (
     <>
@@ -39,7 +39,7 @@ export default function Payment() {
           <TitleContainer>
             <div className="payment-title-and-subtitle">
               <h1>Ingresso e Pagamento</h1>
-              <UserMessagePayment />
+              <UserMessageSubscription />
             </div>
           </TitleContainer>
         </>}

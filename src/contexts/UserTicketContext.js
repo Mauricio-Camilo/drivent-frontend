@@ -8,11 +8,12 @@ function UserTicketProvider({ children }) {
   const [userTicket, setUserTicket] = useLocalStorage('userTicket', undefined);
   const [bookTicket, setBookTicket] = useState(false);
   // usei a partir daqui
-  const [finishSubscription, setFinishSubscription] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(new Map());
   const [selectedAccommodation, setSelectedAccommodation] = useState(new Map());
-  const [finishTicket, setFinishTicket] = useState(false);
-  const [finishPayment, setFinishPayment] = useState(false);
+  //README: PEGAR ESSAS INFORMAÇÕES DO LOCAL STORAGE
+  const [finishSubscription, setFinishSubscription] = useState(localStorage.getItem('finishSubscription'));
+  const [finishTicket, setFinishTicket] = useState(localStorage.getItem('finishTicket'));
+  const [finishPayment, setFinishPayment] = useState(localStorage.getItem('finishPayment'));
 
   return (
     <UserTicketContext.Provider value={{ userTicket, setUserTicket, bookTicket, setBookTicket,

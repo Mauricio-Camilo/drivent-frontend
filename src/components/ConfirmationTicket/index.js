@@ -29,7 +29,9 @@ export default function ConfirmationTicket() {
   };
 
   function submit() {
+    // README: SALVAR DIRETO NO LOCAL STORAGE
     setFinishTicket(true);
+    localStorage.setItem('finishTicket', true);
   }
 
   return (

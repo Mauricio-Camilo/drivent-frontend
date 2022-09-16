@@ -34,6 +34,7 @@ export default function SignIn() {
     try {
       const userData = await signIn(email, password);
       setUserData(userData);
+      localStorage.setItem('finishPayment', false);
       toast('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (err) {

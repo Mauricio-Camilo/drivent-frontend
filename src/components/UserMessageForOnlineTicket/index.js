@@ -4,7 +4,8 @@ const UserMessageForOnlineTicket = () => {
   return (
     <Background>
       <Message>
-        Sua modalidade de ingresso não inclui hospedagem
+        Sua modalidade de ingresso não inclui hospedagem 
+        <br></br> Prossiga para a escolha de atividades
       </Message>
     </Background>
   );
@@ -13,14 +14,12 @@ const UserMessageForOnlineTicket = () => {
 export { UserMessageForOnlineTicket };
 
 const Background = styled.div`
-    width: 100vw;
-    margin: 170px;
+    width: 100%;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
-    z-index: 7;
+    padding-bottom: 250px;
 `;
 
 const Message = styled.p`
@@ -31,5 +30,4 @@ const Message = styled.p`
     line-height: 23px;
     text-align: center;
     color: #8E8E8E;
-    z-index: 10;
 `;
