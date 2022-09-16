@@ -13,9 +13,20 @@ import { TitleContainer } from './style';
 export default function Payment() {
   const { finishTicket, finishSubscription } = useContext(UserTicketContext);
 
+  function handleNoSubscriptionMessage() {
+    return (
+      <TitleContainer>
+        <div className="payment-title-and-subtitle">
+          <h1>Ingresso e Pagamento</h1>
+          <UserMessageSubscription />
+        </div>
+      </TitleContainer>
+    );
+  }
+
   return (
     <>
-      {true ? // inserir o finishSubscription
+      {finishSubscription ? // inserir o finishSubscription
         <>
           {finishTicket ?
             <CardPage />
@@ -36,12 +47,7 @@ export default function Payment() {
         </>
         :
         <>
-          <TitleContainer>
-            <div className="payment-title-and-subtitle">
-              <h1>Ingresso e Pagamento</h1>
-              <UserMessageSubscription />
-            </div>
-          </TitleContainer>
+          {handleNoSubscriptionMessage()}
         </>}
     </>
   );
