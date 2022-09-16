@@ -18,6 +18,8 @@ export default function Enroll() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  localStorage.clear();
+
   const { loadingSignUp, signUp } = useSignUp();
 
   const navigate = useNavigate();

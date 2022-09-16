@@ -34,7 +34,6 @@ export default function SignIn() {
     try {
       const userData = await signIn(email, password);
       setUserData(userData);
-      localStorage.clear();
       toast('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (err) {

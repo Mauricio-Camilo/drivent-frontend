@@ -5,24 +5,24 @@ import Card from './../../components/CreditCard';
 import PaymentConfirmation from './../../components/PaymentConfirmation';
 
 export default function CardPage() {
-  const { finishPayment, setFinishPayment } = useContext(UserTicketContext);
+  const { finishPayment, setFinishPayment,
+    userTicket, setUserTicket } = useContext(UserTicketContext);
+
+  console.log('pagina de cartao:', userTicket);
 
   function handleTicket() {
-    // README: PEGAR INFOS DE OUTRA PÁGINA OU DO BACK-END  
-    const userTicket = { type: 'Presencial', price: '100' };
-    const userHotel = { type: 'Sem hotel' };
-    const totalPrice = 100;
+    const { ticket, accommodation, price } = userTicket;
     return (
       <Ticket>
-        {userTicket.type === 'Online'?
+        {ticket === 'Online'?
           <>
-            <h4>{userTicket.type}</h4> 
-            <p>R$ {userTicket.price}</p>
+            <h4>{ticket}</h4> 
+            <p>R$ {price}</p>
           </>
           :
           <>
-            <h4>{userTicket.type} + {userHotel.type}</h4>
-            <p>R$ {totalPrice}</p> 
+            <h4>{ticket} + {accommodation}</h4>
+            <p>R$ {price}</p> 
           </>}
       </Ticket>
     ); 

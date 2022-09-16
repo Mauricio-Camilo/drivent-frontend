@@ -7,7 +7,6 @@ import { UserHotelContext } from '../../../contexts/UserHotelContext';
 import { Hotels } from '../../../components/HotelComponents/Hotels';
 
 import { TitleContainer } from './../Payment/style';
-import { HotelsContainer } from './style';
 
 export default function Hotel() {
   const { finishPayment, selectedTicket } = useContext(UserTicketContext);

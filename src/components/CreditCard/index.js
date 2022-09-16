@@ -4,15 +4,13 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { UserTicketContext } from '../../contexts/UserTicketContext';
-import { UserHotelContext } from '../../contexts/UserHotelContext';
+import UserContext from '../../contexts/UserContext';
 import { createCard } from '../../services/cardApi';
 import { saveReservation } from '../../services/reservationApi';
-import { UserPaymentContext } from '../../contexts/ConfirmUserPayment';
 
-export default function Card(props) {
-  const { setReservationData } = useContext(UserPaymentContext);
-  const { setFinishTicket, userTicket, finishPayment, setFinishPayment } = useContext(UserTicketContext);
-  const { userHotel } = useContext(UserHotelContext);
+export default function Card() {
+  const { userTicket, setFinishPayment } = useContext(UserTicketContext);
+  const { userData } = useContext(UserContext);
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -22,23 +20,19 @@ export default function Card(props) {
   async function handleCard(e) {
     e.preventDefault();
     try {
-      // const cardId = await createCard({
-      //   number,
-      //   name,
-      //   expiry,
-      //   cvc,
-      //   userId: props.id
-      // });
-      // const reservData = {
-      //   ticket: userTicket.type,
-      //   accommodation: userHotel.type,
-      //   userId: props.id,
-      //   cardId,
-      // };
-      // await saveReservation(reservData);
-      // setReservationData(reservData);
+      const cardId = await createCard({
+        number,
+        name,
+        expiry,
+        cvc,
+        userId: userData.user.id
+      });
+      const saveData = {
+        ticketId: userTicket.id,
+        cardId,
+      };
+      await saveReservation(saveData);
 
-      // README: SALVAR DIRETO NO LOCAL STORAGE
       localStorage.setItem('finishPayment', true);
       setFinishPayment(true);
     }
@@ -80,12 +74,10 @@ export default function Card(props) {
 
 const Container = styled.div`
     max-width: 706px;
-    /* width: 100%; */
     height: 225px;
     display: flex; 
     margin-left: -9px;
     padding-top: 20px;
-    /* justify-content: left;  */
 `;
 
 const Button = styled.button`
@@ -106,7 +98,6 @@ const Button = styled.button`
 const InputsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    /* gap: 20px; */
     margin-left: 30px;
     height: 185px;
 
@@ -131,6 +122,7 @@ const InputsContainer = styled.div`
             margin-bottom: 15px;
         }
 `;
+
 const Input = styled.input`
     width: 95%;
 `;
@@ -139,8 +131,8 @@ const InputSubcontainer = styled.div`
     display: flex;
     gap: 5%;
     margin-top: 18px;
-
 `;
+
 const ExpiryInput = styled.input`
     width: 65%;
 `;

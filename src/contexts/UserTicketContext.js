@@ -5,7 +5,9 @@ import useLocalStorage from '../hooks/useLocalStorage';
 const UserTicketContext = createContext();
 
 function UserTicketProvider({ children }) {
-  const [userTicket, setUserTicket] = useLocalStorage('userTicket', undefined);
+  // const [userTicket, setUserTicket] = useState(localStorage.getItem('ticketData'));
+  const [userTicket, setUserTicket] = useLocalStorage('userTicket', {});
+
   const [bookTicket, setBookTicket] = useState(false);
   // usei a partir daqui
   const [selectedTicket, setSelectedTicket] = useState(new Map());
