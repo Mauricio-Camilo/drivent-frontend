@@ -15,3 +15,9 @@ export async function getSelectedHotelRooms(hotelName) {
   const response = await api.get(`/hotels/${hotelName}`);
   return response.data;
 }
+
+export async function getReservatedHotel(data) {
+  const { hotel, room } = data;
+  const response = await api.get(`/hotels/${hotel}/${room}`);
+  return response.data;
+}

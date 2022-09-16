@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { getSelectedHotelRooms } from '../../../services/hotelsApi';
+import { getSelectedHotelRooms, getReservatedHotel } from '../../../services/hotelsApi';
 import { updateRoomVacancy, getVacanciesInRoom } from '../../../services/vacanciesApi';
 import UserContext from '../../../contexts/UserContext';
 import { UserHotelContext } from '../../../contexts/UserHotelContext';
@@ -9,11 +9,9 @@ import { BsPersonFill, BsPerson } from 'react-icons/bs';
 
 export default function Rooms() {
   const { selectedHotel, setSelectedHotel,
-    roomsData, setRoomsData, 
-    selectedRoom, setSelectedRoom,
-    selectedUser, setSelectedUser,
-    lastRoomSelected, setLastRoomSelected,
-    lastPage, setLastPage } = useContext(UserHotelContext);
+    roomsData, setRoomsData, selectedRoom, setSelectedRoom,
+    selectedUser, setSelectedUser, lastRoomSelected, setLastRoomSelected,
+    lastPage, setLastPage, registeredHotel, setRegisteredHotel } = useContext(UserHotelContext);
 
   const { userData } = useContext(UserContext);
   const [updateRoom, setUpdateRoom] = useState(false);
@@ -98,6 +96,15 @@ export default function Rooms() {
       return toast('Não foi possível renderizar os hotéis!');
     }
     try {
+      const hotelReservationData = {
+        hotel: [...selectedHotel.keys()][0],
+        room: [...selectedRoom.keys()][0]
+      };
+      const response = await getReservatedHotel(hotelReservationData);
+      if (response.length !== 0) {
+        setRegisteredHotel(response);
+      }
+      // até aqui funciona
       const vacancyId = [...selectedUser.keys()][0];
       const userId = userData.user.id;
       const data = { updateRoom, removeId: lastRoomSelected };

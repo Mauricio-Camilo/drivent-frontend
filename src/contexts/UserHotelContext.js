@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { createContext } from 'react';
 
+import useLocalStorage from '../hooks/useLocalStorage';
+
 const UserHotelContext = createContext();
 
 function UserHotelProvider({ children }) {
@@ -11,7 +13,8 @@ function UserHotelProvider({ children }) {
   const [selectedUser, setSelectedUser] = useState(new Map());
   const [lastRoomSelected, setLastRoomSelected] = useState(localStorage.getItem('room'));
   const [lastPage, setLastPage] = useState(localStorage.getItem('lastHotelPage'));
-
+  const [registeredHotel, setRegisteredHotel] = useLocalStorage('registeredHotel', {});
+  
   return (
     <UserHotelContext.Provider value={{ hotels, setHotels,
       selectedHotel, setSelectedHotel,
