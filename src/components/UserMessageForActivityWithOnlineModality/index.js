@@ -5,10 +5,8 @@ const UserMessageForActivityWithOnlineModality = () => {
     <Background>
       <Message>
         Sua modalidade de ingresso não necessita escolher
+        <br></br> atividade. Você terá acesso a todas as atividades.
       </Message>
-      <Message2>
-        atividade. Você terá acesso a todas as atividades.
-      </Message2>
     </Background>
   );
 };
@@ -16,14 +14,12 @@ const UserMessageForActivityWithOnlineModality = () => {
 export { UserMessageForActivityWithOnlineModality };
 
 const Background = styled.div`
-    width: 100vw;
-    margin: 170px;
+    width: 100%;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
-    z-index: 7;
+    padding-bottom: 250px;
 `;
 
 const Message = styled.p`
@@ -34,17 +30,4 @@ const Message = styled.p`
     line-height: 23px;
     text-align: center;
     color: #8E8E8E;
-    z-index: 10;
-`;
-
-const Message2 = styled.p`
-    padding: 3px;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    text-align: center;
-    color: #8E8E8E;
-    z-index: 10;
 `;

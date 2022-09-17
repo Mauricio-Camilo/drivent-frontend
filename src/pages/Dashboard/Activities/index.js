@@ -6,12 +6,14 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 import { UserActivitiesContext } from './../../../contexts/ActivitiesContext';
 import { UserTicketContext } from '../../../contexts/UserTicketContext';
-import { UserFormContext } from '../../../contexts/UserFormContext';
 
+import { UserMessageForActivityWithOnlineModality } from '../../../components/UserMessageForActivityWithOnlineModality';
+import { UserMessageForPayment } from '../../../components/UserMessageForPayment';
+
+import { TitleContainer } from '../Payment/style';
 import { getEventDays, getActivitiesByDayId, updateLectureVacancies } from '../../../services/activitiesApi';
 
 import { ActivitiesContainer, DaysContainer, Day, AuditoriumContainer, Div, ScheduleContainer, Activity, VerticalLine, IconApply, IconOff, TextColor } from './style';
-import { NoDataContainer } from '../Payment/style';
 
 export default function Activities() {
   const [selectedDate, setSelectedDate] = useState(new Map());
@@ -22,10 +24,13 @@ export default function Activities() {
   const [saveLectures2, setSaveLectures2] = useState([]);
   const [saveLectures3, setSaveLectures3] = useState([]);
   const { selectedActivity, setSelectedActivity } = useContext(UserActivitiesContext);
-  const { userTicket, finishTicket } = useContext(UserTicketContext);
-  const { usePayment } = useContext(UserFormContext);
+  const { finishTicket } = useContext(UserTicketContext);
 
-  const h3 = finishTicket && userTicket.type !== 'Online' ? 'Primeiro, filtre pelo dia do evento' : '';
+  const { finishPayment } = useContext(UserTicketContext);
+  const isOnline = (localStorage.getItem('ticket') === 'Online');
+
+  /* README: DEIXAR NESSA PÁGINA APENAS OS COMPOENENTES PRINCIPAIS
+  O HANDLE DAYS E HANDLE AUDITORIUM E TODA SUA LÓGICA, PASSAR PARA OUTRA PÁGINA*/
 
   useEffect(() => {
     async function getEventDates() {
@@ -220,50 +225,63 @@ export default function Activities() {
     );
   }
 
+  function handleOnlineTicketMessage() {
+    return (
+      <TitleContainer>
+        <div className="payment-title-and-subtitle">
+          <h1>Escolha de atividades</h1>
+          <UserMessageForActivityWithOnlineModality />
+        </div>
+      </TitleContainer>
+    );
+  }
+
+  function handleNoPaymentMessage() {
+    return (
+      <TitleContainer>
+        <div className="payment-title-and-subtitle">
+          <h1>Escolha de hotel e quarto</h1>
+          <UserMessageForPayment />
+        </div>
+      </TitleContainer>
+    );
+  }
+
   return (
-    (finishTicket && userTicket.type !== 'Online') ? (
-      <ActivitiesContainer>
-        <div className="activities-title-and-subtitle">
-          <h1>Escolha de atividades</h1>
-          <h3>{h3}</h3>
-        </div>
-        <DaysContainer>
-          {handleDays()}
-        </DaysContainer>
-        {[...selectedDate.keys()][0] !== undefined ?
-          <AuditoriumContainer>
-            {handleAuditoriums()}
-          </AuditoriumContainer>
-          :
-          <></>}
-      </ActivitiesContainer> 
-    ) : (finishTicket && userTicket.type === 'Online') ? (
-      <NoDataContainer>
-        <div className="title">
-          <h1>Escolha de atividades</h1>
-        </div>
-        <div className="alert">
-          <h3>Sua modalidade de ingresso não necessita escolher atividade. Você terá acesso a todas as atividades.</h3>
-        </div>
-      </NoDataContainer>
-    ) : (!usePayment) ? (
-      <NoDataContainer>
-        <div className="title">
-          <h1>Escolha de atividades</h1>
-        </div>
-        <div className="alert">
-          <h3>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso.</h3>
-        </div>
-      </NoDataContainer> 
-    ) : (
-      <NoDataContainer>
-        <div className="title">
-          <h1>Escolha de atividades</h1>
-        </div>
-        <div className="alert">
-          <h3>Você precisa ter confirmado pagamento antes de fazer a escolha de atividades.</h3>
-        </div>
-      </NoDataContainer>
-    )
+    <>
+      {finishPayment ?
+        <>
+          {isOnline ?
+            <>
+              {handleOnlineTicketMessage()}
+            </>
+            :
+            <>
+              <ActivitiesContainer>
+                <div className="activities-title-and-subtitle">
+                  <h1>Escolha de atividades</h1>
+                  {[...selectedDate.keys()][0] === undefined?
+                    <h3>Primeiro, filtre pelo dia do evento</h3>
+                    :
+                    <></>}
+                </div>
+                <DaysContainer>
+                  {handleDays()}
+                </DaysContainer>
+                {[...selectedDate.keys()][0] !== undefined ?
+                  <AuditoriumContainer>
+                    {handleAuditoriums()}
+                  </AuditoriumContainer>
+                  :
+                  <></>}
+              </ActivitiesContainer>
+            </>}
+        </>
+        :
+        <>
+          {handleNoPaymentMessage()}
+        </>
+      }
+    </>
   );
 }
