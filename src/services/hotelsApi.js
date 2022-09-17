@@ -19,5 +19,8 @@ export async function getSelectedHotelRooms(hotelName) {
 export async function getReservatedHotel(data) {
   const { hotel, room } = data;
   const response = await api.get(`/hotels/${hotel}/${room}`);
+  if (response.data.hotel === 'Driven Resort') response.data.image = resort;
+  if (response.data.hotel === 'Driven Palace') response.data.image = palace;
+  if (response.data.hotel === 'Driven World') response.data.image = world;
   return response.data;
 }

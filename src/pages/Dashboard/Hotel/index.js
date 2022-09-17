@@ -5,6 +5,7 @@ import { UserTicketContext } from '../../../contexts/UserTicketContext';
 import { UserHotelContext } from '../../../contexts/UserHotelContext';
 
 import { Hotels } from '../../../components/HotelComponents/Hotels';
+import { HotelConfirmation } from '../../../components/HotelComponents/Confirmation';
 
 import { TitleContainer } from './../Payment/style';
 
@@ -66,7 +67,7 @@ export default function Hotel() {
                   <Hotels />
                 </TitleContainer>
                 :
-                <>{handleConfirmationPage()}</>}
+                <HotelConfirmation /> }
             </>}
         </>
         :

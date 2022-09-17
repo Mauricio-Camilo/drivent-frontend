@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { getSelectedHotelRooms, getReservatedHotel } from '../../../services/hotelsApi';
 import { updateRoomVacancy, getVacanciesInRoom } from '../../../services/vacanciesApi';
@@ -8,13 +8,11 @@ import { HotelsContainer, ImageContainer, Image, RoomsContainer, Room, IconsCont
 import { BsPersonFill, BsPerson } from 'react-icons/bs';
 
 export default function Rooms() {
-  const { selectedHotel, setSelectedHotel,
-    roomsData, setRoomsData, selectedRoom, setSelectedRoom,
-    selectedUser, setSelectedUser, lastRoomSelected, setLastRoomSelected,
-    lastPage, setLastPage, registeredHotel, setRegisteredHotel } = useContext(UserHotelContext);
+  const { selectedHotel, roomsData, setRoomsData, selectedRoom, setSelectedRoom,
+    selectedUser, setSelectedUser, lastRoomSelected, setLastRoomSelected, setLastPage,
+    setRegisteredHotel, updateRoom, setUpdateRoom } = useContext(UserHotelContext);
 
   const { userData } = useContext(UserContext);
-  const [updateRoom, setUpdateRoom] = useState(false);
 
   function activateVacancy(id, number) {
     const alreadySelected = selectedUser.has(id);
@@ -30,7 +28,6 @@ export default function Rooms() {
       setSelectedUser(new Map(selectedUser.set(id)));
       setSelectedRoom(new Map(selectedRoom.set(number)));
     }
-    console.log([...selectedRoom.keys()][0]);
   }
 
   async function getAllRooms() {
@@ -90,7 +87,7 @@ export default function Rooms() {
       );
     }
   }
-
+  // README: SEPARAR EM DUAS FUNÇÕES
   async function submitVacancy() {
     if ([...selectedUser.keys()][0] === undefined) {
       return toast('Não foi possível renderizar os hotéis!');
@@ -101,10 +98,9 @@ export default function Rooms() {
         room: [...selectedRoom.keys()][0]
       };
       const response = await getReservatedHotel(hotelReservationData);
-      if (response.length !== 0) {
+      if (response.hotel !== undefined) {
         setRegisteredHotel(response);
       }
-      // até aqui funciona
       const vacancyId = [...selectedUser.keys()][0];
       const userId = userData.user.id;
       const data = { updateRoom, removeId: lastRoomSelected };
@@ -112,6 +108,7 @@ export default function Rooms() {
       localStorage.setItem('lastHotelPage', true);
       setLastPage(true);
       setUpdateRoom(false);
+      setLastRoomSelected([...selectedUser.keys()][0]);
     }
     catch {
       toast('Não foi possível preencher a vaga do quarto!');

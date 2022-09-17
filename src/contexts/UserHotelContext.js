@@ -11,10 +11,11 @@ function UserHotelProvider({ children }) {
   const [selectedHotel, setSelectedHotel] = useState(new Map());
   const [selectedRoom, setSelectedRoom] = useState(new Map());
   const [selectedUser, setSelectedUser] = useState(new Map());
-  const [lastRoomSelected, setLastRoomSelected] = useState(localStorage.getItem('room'));
+  const [lastRoomSelected, setLastRoomSelected] = useLocalStorage('lastRoom', {});
   const [lastPage, setLastPage] = useState(localStorage.getItem('lastHotelPage'));
   const [registeredHotel, setRegisteredHotel] = useLocalStorage('registeredHotel', {});
-  
+  const [updateRoom, setUpdateRoom] = useState(false);
+
   return (
     <UserHotelContext.Provider value={{ hotels, setHotels,
       selectedHotel, setSelectedHotel,
@@ -22,7 +23,9 @@ function UserHotelProvider({ children }) {
       selectedRoom, setSelectedRoom,
       selectedUser, setSelectedUser,
       lastRoomSelected, setLastRoomSelected,
-      lastPage, setLastPage }}>
+      lastPage, setLastPage,
+      registeredHotel, setRegisteredHotel,
+      updateRoom, setUpdateRoom }}>
       {children}
     </UserHotelContext.Provider>
   );
