@@ -29,15 +29,17 @@ export default function Activities() {
   const { finishPayment } = useContext(UserTicketContext);
   const isOnline = (localStorage.getItem('ticket') === 'Online');
 
-  /* README: DEIXAR NESSA PÁGINA APENAS OS COMPOENENTES PRINCIPAIS
+  /* README: DEIXAR NESSA PÁGINA APENAS OS COMPONENTES PRINCIPAIS
   O HANDLE DAYS E HANDLE AUDITORIUM E TODA SUA LÓGICA, PASSAR PARA OUTRA PÁGINA*/
 
   useEffect(() => {
     async function getEventDates() {
+      // Estado usado para renderizar algum componente enquanto os dados não carregam
       setLoadPage(false);
       try {
         const response = await getEventDays();
         setEventDays(response);
+        // Sem essa condição, a página vai quebrar quando for recarregada, devido ao delay da resposta
         if (response.length !== 0) {
           setLoadPage(true);
         }
@@ -49,6 +51,7 @@ export default function Activities() {
     } getEventDates();
   }, []);
 
+  // FUNÇÃO QUE CONTROLA A SELEÇÃO DOS DIAS
   async function activateDate(id) {
     const alreadySelected = selectedDate.has(id);
     if (alreadySelected) {
@@ -59,12 +62,14 @@ export default function Activities() {
       selectedDate.clear();
       setSelectedDate(new Map(selectedDate.set(id)));
     }
+    // Após um clique, vai renderizar (ou não) os próximos componentes
     getActivities();
   }
 
+  // FUNÇÃO ATIVADA QUANDO UM DIA É SELECIONADO, VAI RENDERIZAR AS ATIVIDADES
   async function getActivities() {
     try {
-      const eventDayId = [...selectedDate.keys()][0];
+      const eventDayId = [...selectedDate.keys()][0]; // Verifica se o mapa tem algum dia salvo
       if (eventDayId !== undefined) {
         const response = await getActivitiesByDayId(eventDayId);
         setActivitiesData(response);
@@ -79,9 +84,11 @@ export default function Activities() {
   }
 
   async function activateActivity(id, startTime, finishTime) {
-    const auxiliarState = selectAuxiliarState();
+    const auxiliarState = selectAuxiliarState(); // Seleciona o estado que vai ser usado nesse mapa
     const formattedStartTime = convertTimeinMinutes(startTime);
     const formattedFinishTime = convertTimeinMinutes(finishTime);
+    /* Aqui verifica se a minha atual palestra não tem conflito de horário
+    Os horários salvos estão em um array auxiliar*/
     let ableClick = lectureIsAble(auxiliarState[0], formattedStartTime, formattedFinishTime);
     selectedActivity.has(id) ? ableClick = true : <></>;
     if (ableClick) {
@@ -91,7 +98,7 @@ export default function Activities() {
         setSelectedActivity(new Map(selectedActivity));
         deleteTimeInArray(auxiliarState[0], auxiliarState[1]);
         await updateLectureVacancies({ id, state: true });
-        getActivities();
+        getActivities(); // Atualiza as vagas caso ela esteja selecionada e o usuário trocar de página
       }
       else {
         setSelectedActivity(new Map(selectedActivity.set(id)));
@@ -105,6 +112,8 @@ export default function Activities() {
     }
   }
 
+  /* FUNÇÃO CRIADA PARA USAR DIFERENTES ESTADOS DEPENDENDO DO DIA QUE FOI SELECIONADO.
+  SEM ISSO, EU PERDERIA AS PALESTRAS SELECIONADAS AO TROCAR DE PÁGINA*/
   function selectAuxiliarState() {
     let teste = '';
     let setTeste = '';
@@ -123,11 +132,13 @@ export default function Activities() {
     return ([teste, setTeste]);
   }
 
+  // Remove os dois últimos horários, ou seja, da palestra que está sendo desclicada
   function deleteTimeInArray(teste, setTeste) {
     const newArray = teste.slice(0, teste.length - 2);
     setTeste(newArray);
   }
 
+  // Salva o horário de início e de final da palestra que foi clicada
   function saveTimeInArray(teste, setTeste, startTime, finishTime) {
     const formattedStartTime = convertTimeinMinutes(startTime);
     const formattedFinishTime = convertTimeinMinutes(finishTime);
@@ -135,6 +146,7 @@ export default function Activities() {
     setTeste(newArray);
   }
 
+  // Transforma um horário em minutos: Ex: 9h = 540 min, 9h30 = 570 min
   function convertTimeinMinutes(time) {
     const splitTime = time.split(':');
     const arrayTime = splitTime.map((numero) => {
@@ -144,6 +156,8 @@ export default function Activities() {
     return timeInMinutes;
   }
 
+  /* Faz uma varredura no estado auxiliar para verificar se existe conflito de horários 
+  Essa varredura percorre de dois em dois horários, que são os de inicio e término de palestras*/
   function lectureIsAble(saveLectures, startTime, finishTime) {
     if (saveLectures.length === 0) return true;
     for (let i = 0; i < saveLectures.length; i++) {
