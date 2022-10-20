@@ -1,17 +1,17 @@
 import { useContext, useState, useEffect } from 'react';
-import { getSelectedHotelRooms, getAllHotels } from '../../../services/hotelsApi';
+import { getAllHotels } from '../../../services/hotelsApi';
 
 import { UserHotelContext } from '../../../contexts/UserHotelContext';
 import { toast } from 'react-toastify';
 
 import Rooms from '../Rooms';
 
-import { HotelsContainer, ImageContainer, Image, RoomsContainer, Room, IconsContainer, Icon, IconStatus, IconFill, Button } from './style';
+import { HotelsContainer, ImageContainer, Image } from './style';
 
 export function Hotels() {
   const [loadPage, setLoadPage] = useState(false);
   const { hotels, setHotels, selectedHotel, setSelectedHotel,
-    selectedRoom, setSelectedRoom, selectedUser, setSelectedUser } = useContext(UserHotelContext);
+    selectedRoom, selectedUser } = useContext(UserHotelContext);
   const showRooms = [...selectedHotel.keys()][0] !== undefined;
 
   useEffect(() => {

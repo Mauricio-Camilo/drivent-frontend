@@ -1,10 +1,10 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import { getSelectedHotelRooms, getReservatedHotel } from '../../../services/hotelsApi';
-import { updateRoomVacancy, getVacanciesInRoom } from '../../../services/vacanciesApi';
+import { updateRoomVacancy } from '../../../services/vacanciesApi';
 import UserContext from '../../../contexts/UserContext';
 import { UserHotelContext } from '../../../contexts/UserHotelContext';
-import { HotelsContainer, ImageContainer, Image, RoomsContainer, Room, IconsContainer, Icon, IconStatus, IconFill, Button } from './../Hotels/style';
+import { RoomsContainer, Room, IconsContainer, Icon, IconStatus, IconFill, Button } from './../Hotels/style';
 import { BsPersonFill, BsPerson } from 'react-icons/bs';
 
 export default function Rooms() {
