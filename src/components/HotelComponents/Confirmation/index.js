@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { UserHotelContext } from '../../../contexts/UserHotelContext';
 
 import { TitleContainer } from './../../../pages/Dashboard/Payment/style';

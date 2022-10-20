@@ -87,32 +87,46 @@ export default function Rooms() {
       );
     }
   }
+
   // README: SEPARAR EM DUAS FUNÇÕES
   async function submitVacancy() {
     if ([...selectedUser.keys()][0] === undefined) {
       return toast('Não foi possível renderizar os hotéis!');
     }
     try {
-      const hotelReservationData = {
-        hotel: [...selectedHotel.keys()][0],
-        room: [...selectedRoom.keys()][0]
-      };
-      const response = await getReservatedHotel(hotelReservationData);
-      if (response.hotel !== undefined) {
-        setRegisteredHotel(response);
-      }
+      getReservedHotel();
+
       const vacancyId = [...selectedUser.keys()][0];
       const userId = userData.user.id;
       const data = { updateRoom, removeId: lastRoomSelected };
       await updateRoomVacancy(userId, vacancyId, data);
-      localStorage.setItem('lastHotelPage', true);
-      setLastPage(true);
-      setUpdateRoom(false);
-      setLastRoomSelected([...selectedUser.keys()][0]);
+
+      updateStates();
     }
     catch {
       toast('Não foi possível preencher a vaga do quarto!');
     }
+  }
+
+  async function getReservedHotel() {
+    // A aplicação salva o id do hotel e do quarto
+    const hotelReservationData = {
+      hotel: [...selectedHotel.keys()][0],
+      room: [...selectedRoom.keys()][0]
+    };
+    // Aqui eu preciso pegar as informações completas do hotel reservado
+    const response = await getReservatedHotel(hotelReservationData);
+    if (response.hotel !== undefined) {
+      setRegisteredHotel(response);
+    }
+  }
+
+  async function updateStates() {
+    // Salva no LS para permanecer na página de hotel salvo caso o usuário clique em outra página
+    localStorage.setItem('lastHotelPage', true);
+    setLastPage(true);
+    setUpdateRoom(false);
+    setLastRoomSelected([...selectedUser.keys()][0]);
   }
 
   getAllRooms();
