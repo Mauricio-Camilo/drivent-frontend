@@ -38,16 +38,6 @@ export default function Hotel() {
     );
   }
 
-  function handleConfirmationPage() {
-    return (
-      <TitleContainer>
-        <div className="payment-title-and-subtitle">
-          <h1>Escolha de hotel e quarto</h1>
-          <h3>Você já escolheu seu quarto</h3>
-        </div>
-      </TitleContainer>
-    );
-  }
   return (
     <>
       {finishPayment ? 
